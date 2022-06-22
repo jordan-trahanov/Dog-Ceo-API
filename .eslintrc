@@ -1,0 +1,124 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["prettier", "react", "react-hooks", "@typescript-eslint", "simple-import-sort"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended"
+  ],
+  "rules": {
+    // Prettier
+    "prettier/prettier": "warn",
+
+    // Possible Errors
+    "no-console": "off",
+    "no-unreachable": "warn",
+    "no-extra-parens": ["error", "functions"],
+    "no-prototype-builtins": "off",
+    "no-template-curly-in-string": "error",
+
+    // Best Practices
+    "array-callback-return": "warn",
+    "block-scoped-var": "warn",
+    "consistent-return": "off",
+    "no-multi-spaces": "warn",
+    "no-param-reassign": "warn",
+    "no-redeclare": "warn",
+    "no-script-url": "off",
+    "no-useless-return": "warn",
+    "require-await": "warn",
+    "semi": ["warn", "always"],
+
+    // Variables
+    "no-undef": "error",
+    "no-unused-vars": "off",
+
+    // Node.js and CommonJS
+    "callback-return": "warn",
+
+    // ECMAScript 6
+    "arrow-body-style": "warn",
+    "arrow-parens": ["warn", "as-needed"],
+    "arrow-spacing": "warn",
+    "no-confusing-arrow": "off",
+    "no-const-assign": "error",
+    "no-duplicate-imports": "warn",
+    "no-fallthrough": "off",
+    "no-useless-rename": "warn",
+    "no-var": "warn",
+    "prefer-const": "warn",
+    "prefer-template": "warn",
+
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // Packages `react` related packages come first.
+          ["^react", "^@?\\w"],
+          // Style imports.
+          ["^.+\\.?(css)$"],
+          // Internal packages.
+          ["^(@|components)(/.*|$)"],
+          // Side effect imports.
+          ["^\\u0000"],
+          // Parent imports. Put `..` last.
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error",
+
+    "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
+    "react/jsx-filename-extension": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-boolean-value": "off",
+    "react/jsx-closing-tag-location": "off",
+    "react/button-has-type": "off",
+    "react/prop-types": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-curly-spacing": "off",
+    "react/no-access-state-in-setstate": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-no-bind": "off",
+    "react/require-default-props": "off",
+    "react/display-name": "off",
+    "react/jsx-first-prop-new-line": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/static-property-placement": "off",
+    "react/state-in-constructor": "off",
+    "react/no-array-index-key": "warn",
+    "react/default-props-match-prop-types": "off",
+
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/no-angle-bracket-type-assertion": "off",
+
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}
