@@ -1,82 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import { Menu } from '@mui/icons-material';
-import { AppBar, Box, Button, IconButton, Link, Toolbar, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { FetchDogsByBreed } from 'helper/FetchDogsByBreed';
 import { FetchRandomDogs } from 'helper/FetchRandomDogs';
 
+import ApplicationBar from './ApplicationBar';
 import Filters from './Filters';
-import ImageMasonry from './Masonry';
+import ImageMasonry from './ImageMasonry';
+import Loading from './Loading';
 
 const Page = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<any>({ message: [] });
   const [breed, setBreed] = useState('');
   const [subBreed, setSubBreed] = useState('');
   const [limit, setLimit] = useState('');
 
+  // Fetch random dogs initially
   useEffect(() => {
+    setLoading(true);
     (async () => {
       const randomDogs = await FetchRandomDogs({ limit: 12 });
       setImages(randomDogs);
+      setLoading(false);
     })();
   }, []);
 
+  // Fetch dogs based on filters
   useEffect(() => {
-    if (breed) {
-      (async () => {
+    setLoading(true);
+    (async () => {
+      if (breed) {
         const dogsByBreed = await FetchDogsByBreed({ breed, subBreed, limit });
         setImages(dogsByBreed);
-      })();
-    }
+        setLoading(false);
+      } else {
+        const randomDogs = await FetchRandomDogs({ limit });
+        setImages(randomDogs);
+        setLoading(false);
+      }
+    })();
   }, [breed, subBreed, limit]);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const getBreed = (breed: string) => setBreed(breed);
-  const getSubBreed = (subBreed: string) => setSubBreed(subBreed);
-  const fetchLimit = (limit: string) => setLimit(limit);
+  const getBreedValue = (breed: string) => setBreed(breed);
+  const getSubBreedValue = (subBreed: string) => setSubBreed(subBreed);
+  const fetchLimitValue = (limit: string) => setLimit(limit);
 
   return (
-    <div className="App">
-      <Box sx={{ display: 'flex' }}>
-        <AppBar component="nav">
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}>
-              <Menu />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-              <Link
-                component={Button}
-                variant="h6"
-                onClick={() => {
-                  console.info("I'm a button.");
-                }}
-                href={'/'}
-                sx={{ color: '#fff' }}>
-                DOGS
-              </Link>
-            </Typography>
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-                {breed && breed.toUpperCase()}
-                {subBreed && ` / ${subBreed.toUpperCase()}`}
-              </Typography>
-            </Box>
-          </Toolbar>
-        </AppBar>
+    <>
+      <ApplicationBar breed={breed} subBreed={subBreed} />
+      <Box sx={{ paddingTop: '88px' }}>
+        <Filters fetchBreed={getBreedValue} fetchSubBreed={getSubBreedValue} fetchLimit={fetchLimitValue} />
+        {loading && <Loading />}
       </Box>
-      <Box sx={{ paddingTop: '80px' }}>
-        <Filters fetchBreed={getBreed} fetchSubBreed={getSubBreed} fetchLimit={fetchLimit} />
-        <ImageMasonry images={images?.message.length ? images.message : []} />
+      <Box sx={{ paddingTop: '24px' }}>
+        {!loading && <ImageMasonry images={images?.message.length ? images.message : []} />}
       </Box>
-    </div>
+    </>
   );
 };
 
